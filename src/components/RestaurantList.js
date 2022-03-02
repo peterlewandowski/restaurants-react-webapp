@@ -30,7 +30,7 @@ export default function RestaurantList() {
             <Rate disabled allowHalf defaultValue={restaurant.rating} />
             <span> ({restaurant.numRatings})</span>
             <p>{restaurant.address}</p>
-            <RestaurantRating />
+            <RestaurantRating id={restaurant.id} setRestaurants={setRestaurants} />
           </Card>
         </List.Item>
       )}

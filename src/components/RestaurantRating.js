@@ -45,32 +45,24 @@ const options = [
   },
 ];
 
-export default function RestaurantRating () {
-    const [restaurant, setRestaurant] = useState({}); // initial state set to null?
+export default function RestaurantRating({ id, setRestaurants }) {
     const [rating, setRating] = useState();
-    const params = useParams();
 
     const handleRating = () => {
-        fetch(`https://bocacode-intranet-api.web.app/restaurants/${params.id}`, {
+        fetch(`https://bocacode-intranet-api.web.app/restaurants/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ rating: rating }),
         })
-        .then((response) => response.json)
-        .then(() => setRating(0))
+        .then((response) => response.json())
+        .then(data => {
+          setRestaurants(data)
+          setRating(0)
+        })
         .catch(alert);
-    };
-
-    useEffect(() => {
-        fetch(`https://bocacode-intranet-api.web.app/restaurants`)
-            .then((response) => response.json())
-            .then((data) => setRestaurant(data))
-            .catch(alert);
-    }, [rating]);
-
-    
+    };    
 
   return (
     <div className="rating">
@@ -78,7 +70,7 @@ export default function RestaurantRating () {
       <Cascader
         defaultValue={["Give it a rating"]}
         options={options}
-        onChange={(value) => setRating(value)}
+        onChange={(rating) => setRating(rating)}
       />
       <br></br>
       <Button
